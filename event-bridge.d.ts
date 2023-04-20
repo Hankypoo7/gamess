@@ -1,16 +1,8 @@
-import { Event } from './event';
-export interface EventBridge {
+import { Event, EventBridgeReceiver, EventBridge as IEventBridge } from '@amplitude/analytics-types';
+import { EventBridgeChannel } from './event-bridge-channel';
+export declare class EventBridge implements IEventBridge {
+    eventBridgeChannels: Record<string, EventBridgeChannel | undefined>;
     sendEvent(channel: string, event: Event): void;
     setReceiver(channel: string, receiver: EventBridgeReceiver): void;
-}
-export interface EventBridgeChannel {
-    sendEvent(event: Event): void;
-    setReceiver(receiver: EventBridgeReceiver): void;
-}
-export interface EventBridgeContainer {
-    getInstance(instanceName: string): EventBridge;
-}
-export interface EventBridgeReceiver {
-    receive(channel: string, event: Event): void;
 }
 //# sourceMappingURL=event-bridge.d.ts.map

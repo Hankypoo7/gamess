@@ -1,9 +1,22 @@
-export var LogLevel;
-(function (LogLevel) {
-    LogLevel[LogLevel["None"] = 0] = "None";
-    LogLevel[LogLevel["Error"] = 1] = "Error";
-    LogLevel[LogLevel["Warn"] = 2] = "Warn";
-    LogLevel[LogLevel["Verbose"] = 3] = "Verbose";
-    LogLevel[LogLevel["Debug"] = 4] = "Debug";
-})(LogLevel || (LogLevel = {}));
+var Logger = /** @class */ (function () {
+    function Logger() {
+    }
+    Logger.prototype.disable = function () {
+        return undefined;
+    };
+    Logger.prototype.enable = function () {
+        return undefined;
+    };
+    Logger.prototype.log = function () {
+        return undefined;
+    };
+    Logger.prototype.warn = function () {
+        return undefined;
+    };
+    Logger.prototype.error = function () {
+        return undefined;
+    };
+    return Logger;
+}());
+export { Logger };
 //# sourceMappingURL=logger.js.map
