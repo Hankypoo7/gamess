@@ -1,66 +1,85 @@
-import { AttributionOptions, Event, BrowserOptions, BrowserConfig as IBrowserConfig, Storage, TrackingOptions, TransportType, UserSession, SessionManager as ISessionManager } from '@amplitude/analytics-types';
-import { Config, MemoryStorage } from '@amplitude/analytics-core';
-import { SessionManager, FetchTransport } from '@amplitude/analytics-client-common';
-import { XHRTransport } from './transports/xhr';
-import { SendBeaconTransport } from './transports/send-beacon';
-export declare const getDefaultConfig: () => {
-    cookieExpiration: number;
-    cookieSameSite: string;
-    cookieSecure: boolean;
-    cookieStorage: MemoryStorage<UserSession>;
-    cookieUpgrade: boolean;
-    disableCookies: boolean;
-    domain: string;
-    sessionManager: SessionManager;
-    sessionTimeout: number;
-    storageProvider: MemoryStorage<Event[]>;
-    trackingOptions: Required<TrackingOptions>;
-    transportProvider: FetchTransport;
-};
-export declare class BrowserConfig extends Config implements IBrowserConfig {
+import { LogLevel, Logger } from './logger';
+import { Storage } from './storage';
+import { Event } from './event';
+import { Transport, TransportType } from './transport';
+import { Plan } from './plan';
+import { IngestionMetadata } from './ingestion-metadata';
+import { SessionManager, UserSession } from './session-manager';
+export declare enum ServerZone {
+    US = "US",
+    EU = "EU"
+}
+export interface Config {
+    apiKey: string;
+    flushIntervalMillis: number;
+    flushMaxRetries: number;
+    flushQueueSize: number;
+    logLevel: LogLevel;
+    loggerProvider: Logger;
+    minIdLength?: number;
+    optOut: boolean;
+    plan?: Plan;
+    ingestionMetadata?: IngestionMetadata;
+    serverUrl: string | undefined;
+    serverZone?: ServerZone;
+    storageProvider?: Storage<Event[]>;
+    transportProvider: Transport;
+    useBatch: boolean;
+}
+export interface BrowserConfig extends Config {
     appVersion?: string;
     attribution?: AttributionOptions;
+    deviceId?: string;
     cookieExpiration: number;
     cookieSameSite: string;
     cookieSecure: boolean;
-    cookieUpgrade: boolean;
     cookieStorage: Storage<UserSession>;
+    cookieUpgrade?: boolean;
     disableCookies: boolean;
     domain: string;
+    lastEventTime?: number;
     partnerId?: string;
-    sessionTimeout: number;
-    trackingOptions: TrackingOptions;
-    sessionManager: ISessionManager;
-    constructor(apiKey: string, userId?: string, options?: BrowserOptions);
-    get deviceId(): string | undefined;
-    set deviceId(deviceId: string | undefined);
-    get userId(): string | undefined;
-    set userId(userId: string | undefined);
-    get sessionId(): number | undefined;
-    set sessionId(sessionId: number | undefined);
-    get optOut(): boolean;
-    set optOut(optOut: boolean);
-    get lastEventTime(): number | undefined;
-    set lastEventTime(lastEventTime: number | undefined);
-}
-export declare const useBrowserConfig: (apiKey: string, userId?: string, options?: BrowserOptions) => Promise<IBrowserConfig>;
-export declare const createCookieStorage: (overrides?: BrowserOptions, baseConfig?: {
-    cookieExpiration: number;
-    cookieSameSite: string;
-    cookieSecure: boolean;
-    cookieStorage: MemoryStorage<UserSession>;
-    cookieUpgrade: boolean;
-    disableCookies: boolean;
-    domain: string;
+    sessionId?: number;
     sessionManager: SessionManager;
     sessionTimeout: number;
-    storageProvider: MemoryStorage<Event[]>;
-    trackingOptions: Required<TrackingOptions>;
-    transportProvider: FetchTransport;
-}) => Promise<Storage<UserSession>>;
-export declare const createFlexibleStorage: <T>(options: BrowserOptions) => Promise<Storage<T>>;
-export declare const createEventsStorage: (overrides?: BrowserOptions) => Promise<Storage<Event[]> | undefined>;
-export declare const createDeviceId: (idFromCookies?: string, idFromOptions?: string, idFromQueryParams?: string) => string;
-export declare const createTransport: (transport?: TransportType) => FetchTransport | XHRTransport | SendBeaconTransport;
-export declare const getTopLevelDomain: (url?: string) => Promise<string>;
+    trackingOptions: TrackingOptions;
+    userId?: string;
+}
+export type ReactNativeConfig = Omit<BrowserConfig, 'trackingOptions'> & {
+    trackingOptions: ReactNativeTrackingOptions;
+    trackingSessionEvents?: boolean;
+};
+export type NodeConfig = Config;
+export type InitOptions<T extends Config> = Partial<Config> & Omit<T, keyof Config> & {
+    apiKey: string;
+    transportProvider: Transport;
+};
+export interface TrackingOptions {
+    deviceManufacturer?: boolean;
+    deviceModel?: boolean;
+    ipAddress?: boolean;
+    language?: boolean;
+    osName?: boolean;
+    osVersion?: boolean;
+    platform?: boolean;
+    [key: string]: boolean | undefined;
+}
+export interface ReactNativeTrackingOptions extends TrackingOptions {
+    adid?: boolean;
+    carrier?: boolean;
+}
+export interface AttributionOptions {
+    disabled?: boolean;
+    excludeReferrers?: string[];
+    initialEmptyValue?: string;
+    trackNewCampaigns?: boolean;
+    trackPageViews?: boolean;
+}
+export type BrowserOptions = Omit<Partial<BrowserConfig & {
+    transport: TransportType;
+}>, 'apiKey'>;
+export type ReactNativeOptions = Omit<Partial<ReactNativeConfig & {
+    transport: TransportType;
+}>, 'apiKey'>;
+export type NodeOptions = Omit<Partial<NodeConfig>, 'apiKey'>;
 //# sourceMappingURL=config.d.ts.map
