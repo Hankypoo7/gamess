@@ -1,46 +1,41 @@
 {
-  "name": "@amplitude/analytics-client-common",
-  "version": "0.5.3",
-  "description": "",
-  "author": "Amplitude Inc",
-  "homepage": "https://github.com/amplitude/Amplitude-TypeScript",
+  "name": "@amplitude/analytics-connector",
+  "version": "1.4.6",
+  "description": "Connector package for Amplitude SDKs",
+  "author": "Amplitude",
+  "homepage": "https://github.com/amplitude/experiment-js-client",
   "license": "MIT",
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
-  "types": "lib/esm/index.d.ts",
-  "sideEffects": false,
+  "main": "dist/analytics-connector.umd.js",
+  "module": "dist/analytics-connector.esm.js",
+  "es2015": "dist/analytics-connector.es2015.js",
+  "types": "dist/types/src/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amplitude/Amplitude-TypeScript.git"
+    "url": "https://github.com/amplitude/experiment-js-client.git",
+    "directory": "packages/analytics-connector"
   },
   "scripts": {
-    "build": "yarn build:es5 && yarn build:esm",
-    "build:es5": "tsc -p ./tsconfig.es5.json",
-    "build:esm": "tsc -p ./tsconfig.esm.json",
-    "clean": "rimraf node_modules lib coverage",
-    "fix": "yarn fix:eslint & yarn fix:prettier",
-    "fix:eslint": "eslint '{src,test}/**/*.ts' --fix",
-    "fix:prettier": "prettier --write \"{src,test}/**/*.ts\"",
-    "lint": "yarn lint:eslint & yarn lint:prettier",
-    "lint:eslint": "eslint '{src,test}/**/*.ts'",
-    "lint:prettier": "prettier --check \"{src,test}/**/*.ts\"",
+    "build": "rm -rf dist && rollup -c",
+    "clean": "rimraf node_modules dist",
+    "lint": "eslint . --ignore-path ../../.eslintignore && prettier -c . --ignore-path ../../.prettierignore",
     "test": "jest",
-    "typecheck": "tsc -p ./tsconfig.json"
+    "prepublish": "yarn build"
   },
   "bugs": {
-    "url": "https://github.com/amplitude/Amplitude-TypeScript/issues"
+    "url": "https://github.com/amplitude/experiment-js-client/issues"
   },
   "dependencies": {
-    "@amplitude/analytics-connector": "^1.4.5",
-    "@amplitude/analytics-core": "^0.11.3",
-    "@amplitude/analytics-types": "^0.15.0",
-    "tslib": "^2.4.1"
+    "@amplitude/ua-parser-js": "0.7.31"
+  },
+  "devDependencies": {
+    "@types/amplitude-js": "^8.0.2",
+    "amplitude-js": "^8.12.0"
   },
   "files": [
-    "lib"
+    "dist"
   ],
-  "gitHead": "bb953b5d8b24bb3bfc095186fdeafdccc08c6c2c"
+  "gitHead": "61f316e302deed6c98575e5ee6a1adbeef19ccea"
 }
