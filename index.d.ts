@@ -1,5 +1,3 @@
-import { BrowserOptions, UserSession } from '@amplitude/analytics-types';
-export declare const parseOldCookies: (apiKey: string, options?: BrowserOptions) => Promise<UserSession>;
-export declare const parseTime: (num: string) => number | undefined;
-export declare const decode: (value?: string) => string | undefined;
+export { BrowserClient, ReactNativeClient } from './web-client';
+export { NodeClient } from './node-client';
 //# sourceMappingURL=index.d.ts.map
