@@ -1,10 +1,37 @@
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.EU_AMPLITUDE_BATCH_SERVER_URL = exports.AMPLITUDE_BATCH_SERVER_URL = exports.EU_AMPLITUDE_SERVER_URL = exports.AMPLITUDE_SERVER_URL = exports.STORAGE_PREFIX = exports.AMPLITUDE_PREFIX = exports.UNSET_VALUE = void 0;
-exports.UNSET_VALUE = '-';
-exports.AMPLITUDE_PREFIX = 'AMP';
-exports.STORAGE_PREFIX = "".concat(exports.AMPLITUDE_PREFIX, "_unsent");
-exports.AMPLITUDE_SERVER_URL = 'https://api2.amplitude.com/2/httpapi';
-exports.EU_AMPLITUDE_SERVER_URL = 'https://api.eu.amplitude.com/2/httpapi';
-exports.AMPLITUDE_BATCH_SERVER_URL = 'https://api2.amplitude.com/batch';
-exports.EU_AMPLITUDE_BATCH_SERVER_URL = 'https://api.eu.amplitude.com/batch';
+export var UTM_CAMPAIGN = 'utm_campaign';
+export var UTM_CONTENT = 'utm_content';
+export var UTM_ID = 'utm_id';
+export var UTM_MEDIUM = 'utm_medium';
+export var UTM_SOURCE = 'utm_source';
+export var UTM_TERM = 'utm_term';
+export var DCLID = 'dclid';
+export var FBCLID = 'fbclid';
+export var GBRAID = 'gbraid';
+export var GCLID = 'gclid';
+export var KO_CLICK_ID = 'ko_click_id';
+export var MSCLKID = 'msclkid';
+export var TTCLID = 'ttclid';
+export var TWCLID = 'twclid';
+export var WBRAID = 'wbraid';
+export var EMPTY_VALUE = 'EMPTY';
+export var BASE_CAMPAIGN = {
+    utm_campaign: undefined,
+    utm_content: undefined,
+    utm_id: undefined,
+    utm_medium: undefined,
+    utm_source: undefined,
+    utm_term: undefined,
+    referrer: undefined,
+    referring_domain: undefined,
+    dclid: undefined,
+    gbraid: undefined,
+    gclid: undefined,
+    fbclid: undefined,
+    ko_click_id: undefined,
+    msclkid: undefined,
+    ttclid: undefined,
+    twclid: undefined,
+    wbraid: undefined,
+};
+export var MKTG = 'MKTG';
 //# sourceMappingURL=constants.js.map

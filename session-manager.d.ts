@@ -1,25 +1,26 @@
-export interface UserSession {
-    userId?: string;
-    deviceId?: string;
-    sessionId?: number;
-    lastEventTime?: number;
-    optOut: boolean;
-    lastEventId?: number;
-}
-export interface SessionManagerOptions {
-    apiKey: string;
-    sessionTimeout: number;
-}
-export interface SessionManager {
-    setSession(session: UserSession): void;
+import { UserSession, Storage, SessionManager as ISessionManager } from '@amplitude/analytics-types';
+export declare class SessionManager implements ISessionManager {
+    private storage;
+    storageKey: string;
+    cache: UserSession;
+    constructor(storage: Storage<UserSession>, apiKey: string);
+    /**
+     * load() must be called immediately after instantation
+     *
+     * ```ts
+     * await new SessionManager(...).load();
+     * ```
+     */
+    load(): Promise<this>;
+    setSession(session: Partial<UserSession>): void;
     getSessionId(): number | undefined;
-    setSessionId(sessionId?: number): void;
+    setSessionId(sessionId: number): void;
     getDeviceId(): string | undefined;
-    setDeviceId(deviceId?: string): void;
+    setDeviceId(deviceId: string): void;
     getUserId(): string | undefined;
-    setUserId(userId?: string): void;
+    setUserId(userId: string): void;
     getLastEventTime(): number | undefined;
-    setLastEventTime(lastEventTime?: number): void;
+    setLastEventTime(lastEventTime: number): void;
     getOptOut(): boolean;
     setOptOut(optOut: boolean): void;
     getLastEventId(): number | undefined;
