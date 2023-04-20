@@ -1,3 +1,5 @@
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UUID = void 0;
 /**
  * Source: [jed's gist]{@link https://gist.github.com/982883}.
  * Returns a random v4 UUID of the form xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx,
@@ -6,7 +8,7 @@
  * Used to generate UUIDs for deviceIds.
  * @private
  */
-export var UUID = function (a) {
+var UUID = function (a) {
     return a // if the placeholder was passed, return
         ? // a random number from 0 to 15
             (a ^ // unless b is 8,
@@ -23,6 +25,7 @@ export var UUID = function (a) {
                 .replace(
             // replacing
             /[018]/g, // zeroes, ones, and eights with
-            UUID);
+            exports.UUID);
 };
+exports.UUID = UUID;
 //# sourceMappingURL=uuid.js.map

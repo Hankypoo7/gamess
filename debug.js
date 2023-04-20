@@ -1,10 +1,12 @@
-import { __assign, __values } from "tslib";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.debugWrapper = exports.getClientStates = exports.getValueByStringPath = exports.getClientLogConfig = exports.getStacktrace = void 0;
+var tslib_1 = require("tslib");
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { LogLevel } from '@amplitude/analytics-types';
-export var getStacktrace = function (ignoreDepth) {
+var analytics_types_1 = require("@amplitude/analytics-types");
+var getStacktrace = function (ignoreDepth) {
     if (ignoreDepth === void 0) { ignoreDepth = 0; }
     var trace = new Error().stack || '';
     return trace
@@ -12,21 +14,23 @@ export var getStacktrace = function (ignoreDepth) {
         .slice(2 + ignoreDepth)
         .map(function (text) { return text.trim(); });
 };
+exports.getStacktrace = getStacktrace;
 // This hook makes sure we always get the latest logger and logLevel.
-export var getClientLogConfig = function (client) { return function () {
-    var _a = __assign({}, client.config), logger = _a.loggerProvider, logLevel = _a.logLevel;
+var getClientLogConfig = function (client) { return function () {
+    var _a = tslib_1.__assign({}, client.config), logger = _a.loggerProvider, logLevel = _a.logLevel;
     return {
         logger: logger,
         logLevel: logLevel,
     };
 }; };
+exports.getClientLogConfig = getClientLogConfig;
 // This is a convenient function to get the attribute from object with string path, similar to lodash '#get'.
-export var getValueByStringPath = function (obj, path) {
+var getValueByStringPath = function (obj, path) {
     var e_1, _a;
     path = path.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
     path = path.replace(/^\./, ''); // strip a leading dot
     try {
-        for (var _b = __values(path.split('.')), _c = _b.next(); !_c.done; _c = _b.next()) {
+        for (var _b = tslib_1.__values(path.split('.')), _c = _b.next(); !_c.done; _c = _b.next()) {
             var attr = _c.value;
             if (attr in obj) {
                 obj = obj[attr];
@@ -45,13 +49,14 @@ export var getValueByStringPath = function (obj, path) {
     }
     return obj;
 };
-export var getClientStates = function (client, paths) { return function () {
+exports.getValueByStringPath = getValueByStringPath;
+var getClientStates = function (client, paths) { return function () {
     var e_2, _a;
     var res = {};
     try {
-        for (var paths_1 = __values(paths), paths_1_1 = paths_1.next(); !paths_1_1.done; paths_1_1 = paths_1.next()) {
+        for (var paths_1 = tslib_1.__values(paths), paths_1_1 = paths_1.next(); !paths_1_1.done; paths_1_1 = paths_1.next()) {
             var path = paths_1_1.value;
-            res[path] = getValueByStringPath(client, path);
+            res[path] = (0, exports.getValueByStringPath)(client, path);
         }
     }
     catch (e_2_1) { e_2 = { error: e_2_1 }; }
@@ -63,7 +68,8 @@ export var getClientStates = function (client, paths) { return function () {
     }
     return res;
 }; };
-export var debugWrapper = function (fn, fnName, getLogConfig, getStates, fnContext) {
+exports.getClientStates = getClientStates;
+var debugWrapper = function (fn, fnName, getLogConfig, getStates, fnContext) {
     if (fnContext === void 0) { fnContext = null; }
     return function () {
         var args = [];
@@ -72,14 +78,14 @@ export var debugWrapper = function (fn, fnName, getLogConfig, getStates, fnConte
         }
         var _a = getLogConfig(), logger = _a.logger, logLevel = _a.logLevel;
         // return early if possible to reduce overhead
-        if ((logLevel && logLevel < LogLevel.Debug) || !logLevel || !logger) {
+        if ((logLevel && logLevel < analytics_types_1.LogLevel.Debug) || !logLevel || !logger) {
             return fn.apply(fnContext, args);
         }
         var debugContext = {
             type: 'invoke public method',
             name: fnName,
             args: args,
-            stacktrace: getStacktrace(1),
+            stacktrace: (0, exports.getStacktrace)(1),
             time: {
                 start: new Date().toISOString(),
             },
@@ -113,4 +119,5 @@ export var debugWrapper = function (fn, fnName, getLogConfig, getStates, fnConte
         return result;
     };
 };
+exports.debugWrapper = debugWrapper;
 //# sourceMappingURL=debug.js.map

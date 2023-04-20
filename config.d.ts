@@ -1,85 +1,42 @@
-import { LogLevel, Logger } from './logger';
-import { Storage } from './storage';
-import { Event } from './event';
-import { Transport, TransportType } from './transport';
-import { Plan } from './plan';
-import { IngestionMetadata } from './ingestion-metadata';
-import { SessionManager, UserSession } from './session-manager';
-export declare enum ServerZone {
-    US = "US",
-    EU = "EU"
-}
-export interface Config {
+import { Event, Config as IConfig, Logger as ILogger, InitOptions, LogLevel, Storage, Transport, Plan, IngestionMetadata, ServerZone } from '@amplitude/analytics-types';
+import { Logger } from './logger';
+export declare const getDefaultConfig: () => {
+    flushMaxRetries: number;
+    flushQueueSize: number;
+    flushIntervalMillis: number;
+    logLevel: LogLevel;
+    loggerProvider: Logger;
+    optOut: boolean;
+    serverUrl: string;
+    serverZone: ServerZone;
+    useBatch: boolean;
+};
+export declare class Config implements IConfig {
     apiKey: string;
     flushIntervalMillis: number;
     flushMaxRetries: number;
     flushQueueSize: number;
+    loggerProvider: ILogger;
     logLevel: LogLevel;
-    loggerProvider: Logger;
     minIdLength?: number;
-    optOut: boolean;
     plan?: Plan;
     ingestionMetadata?: IngestionMetadata;
     serverUrl: string | undefined;
     serverZone?: ServerZone;
+    transportProvider: Transport;
     storageProvider?: Storage<Event[]>;
-    transportProvider: Transport;
     useBatch: boolean;
+    private _optOut;
+    get optOut(): boolean;
+    set optOut(optOut: boolean);
+    constructor(options: InitOptions<IConfig>);
 }
-export interface BrowserConfig extends Config {
-    appVersion?: string;
-    attribution?: AttributionOptions;
-    deviceId?: string;
-    cookieExpiration: number;
-    cookieSameSite: string;
-    cookieSecure: boolean;
-    cookieStorage: Storage<UserSession>;
-    cookieUpgrade?: boolean;
-    disableCookies: boolean;
-    domain: string;
-    lastEventTime?: number;
-    partnerId?: string;
-    sessionId?: number;
-    sessionManager: SessionManager;
-    sessionTimeout: number;
-    trackingOptions: TrackingOptions;
-    userId?: string;
-}
-export type ReactNativeConfig = Omit<BrowserConfig, 'trackingOptions'> & {
-    trackingOptions: ReactNativeTrackingOptions;
-    trackingSessionEvents?: boolean;
+export declare const getServerUrl: (serverZone: ServerZone, useBatch: boolean) => "https://api2.amplitude.com/2/httpapi" | "https://api.eu.amplitude.com/2/httpapi" | "https://api2.amplitude.com/batch" | "https://api.eu.amplitude.com/batch";
+export declare const createServerConfig: (serverUrl?: string, serverZone?: ServerZone, useBatch?: boolean) => {
+    serverUrl: string;
+    serverZone: undefined;
+} | {
+    serverZone: ServerZone;
+    serverUrl: string;
 };
-export type NodeConfig = Config;
-export type InitOptions<T extends Config> = Partial<Config> & Omit<T, keyof Config> & {
-    apiKey: string;
-    transportProvider: Transport;
-};
-export interface TrackingOptions {
-    deviceManufacturer?: boolean;
-    deviceModel?: boolean;
-    ipAddress?: boolean;
-    language?: boolean;
-    osName?: boolean;
-    osVersion?: boolean;
-    platform?: boolean;
-    [key: string]: boolean | undefined;
-}
-export interface ReactNativeTrackingOptions extends TrackingOptions {
-    adid?: boolean;
-    carrier?: boolean;
-}
-export interface AttributionOptions {
-    disabled?: boolean;
-    excludeReferrers?: string[];
-    initialEmptyValue?: string;
-    trackNewCampaigns?: boolean;
-    trackPageViews?: boolean;
-}
-export type BrowserOptions = Omit<Partial<BrowserConfig & {
-    transport: TransportType;
-}>, 'apiKey'>;
-export type ReactNativeOptions = Omit<Partial<ReactNativeConfig & {
-    transport: TransportType;
-}>, 'apiKey'>;
-export type NodeOptions = Omit<Partial<NodeConfig>, 'apiKey'>;
 //# sourceMappingURL=config.d.ts.map
