@@ -1,7 +1,9 @@
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.BaseTransport = void 0;
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { Status } from '@amplitude/analytics-types';
+var analytics_types_1 = require("@amplitude/analytics-types");
 var BaseTransport = /** @class */ (function () {
     function BaseTransport() {
     }
@@ -16,7 +18,7 @@ var BaseTransport = /** @class */ (function () {
         var statusCode = responseJSON.code || 0;
         var status = this.buildStatus(statusCode);
         switch (status) {
-            case Status.Success:
+            case analytics_types_1.Status.Success:
                 return {
                     status: status,
                     statusCode: statusCode,
@@ -26,7 +28,7 @@ var BaseTransport = /** @class */ (function () {
                         serverUploadTime: (_c = responseJSON.server_upload_time) !== null && _c !== void 0 ? _c : 0,
                     },
                 };
-            case Status.Invalid:
+            case analytics_types_1.Status.Invalid:
                 return {
                     status: status,
                     statusCode: statusCode,
@@ -44,7 +46,7 @@ var BaseTransport = /** @class */ (function () {
                         throttledEvents: (_p = responseJSON.throttled_events) !== null && _p !== void 0 ? _p : [],
                     },
                 };
-            case Status.PayloadTooLarge:
+            case analytics_types_1.Status.PayloadTooLarge:
                 return {
                     status: status,
                     statusCode: statusCode,
@@ -52,7 +54,7 @@ var BaseTransport = /** @class */ (function () {
                         error: (_q = responseJSON.error) !== null && _q !== void 0 ? _q : '',
                     },
                 };
-            case Status.RateLimit:
+            case analytics_types_1.Status.RateLimit:
                 return {
                     status: status,
                     statusCode: statusCode,
@@ -66,7 +68,7 @@ var BaseTransport = /** @class */ (function () {
                         throttledEvents: (_x = responseJSON.throttled_events) !== null && _x !== void 0 ? _x : [],
                     },
                 };
-            case Status.Timeout:
+            case analytics_types_1.Status.Timeout:
             default:
                 return {
                     status: status,
@@ -76,26 +78,26 @@ var BaseTransport = /** @class */ (function () {
     };
     BaseTransport.prototype.buildStatus = function (code) {
         if (code >= 200 && code < 300) {
-            return Status.Success;
+            return analytics_types_1.Status.Success;
         }
         if (code === 429) {
-            return Status.RateLimit;
+            return analytics_types_1.Status.RateLimit;
         }
         if (code === 413) {
-            return Status.PayloadTooLarge;
+            return analytics_types_1.Status.PayloadTooLarge;
         }
         if (code === 408) {
-            return Status.Timeout;
+            return analytics_types_1.Status.Timeout;
         }
         if (code >= 400 && code < 500) {
-            return Status.Invalid;
+            return analytics_types_1.Status.Invalid;
         }
         if (code >= 500) {
-            return Status.Failed;
+            return analytics_types_1.Status.Failed;
         }
-        return Status.Unknown;
+        return analytics_types_1.Status.Unknown;
     };
     return BaseTransport;
 }());
-export { BaseTransport };
+exports.BaseTransport = BaseTransport;
 //# sourceMappingURL=base.js.map

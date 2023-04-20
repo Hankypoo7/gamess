@@ -1,4 +1,6 @@
-import { __read, __spreadArray } from "tslib";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EventBridgeChannel = void 0;
+var tslib_1 = require("tslib");
 var QUEUE_CAPACITY = 512;
 var EventBridgeChannel = /** @class */ (function () {
     function EventBridgeChannel(channel) {
@@ -7,7 +9,7 @@ var EventBridgeChannel = /** @class */ (function () {
     }
     EventBridgeChannel.prototype.sendEvent = function (event) {
         if (!this.receiver) {
-            this.queue = __spreadArray(__spreadArray([], __read(this.queue.slice(0, QUEUE_CAPACITY)), false), [event], false);
+            this.queue = tslib_1.__spreadArray(tslib_1.__spreadArray([], tslib_1.__read(this.queue.slice(0, QUEUE_CAPACITY)), false), [event], false);
             return;
         }
         this.receiver.receive(this.channel, event);
@@ -26,5 +28,5 @@ var EventBridgeChannel = /** @class */ (function () {
     };
     return EventBridgeChannel;
 }());
-export { EventBridgeChannel };
+exports.EventBridgeChannel = EventBridgeChannel;
 //# sourceMappingURL=event-bridge-channel.js.map

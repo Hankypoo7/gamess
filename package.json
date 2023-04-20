@@ -1,6 +1,6 @@
 {
-  "name": "@amplitude/analytics-core",
-  "version": "0.11.3",
+  "name": "@amplitude/analytics-client-common",
+  "version": "0.5.3",
   "description": "",
   "author": "Amplitude Inc",
   "homepage": "https://github.com/amplitude/Amplitude-TypeScript",
@@ -17,7 +17,7 @@
     "url": "git+https://github.com/amplitude/Amplitude-TypeScript.git"
   },
   "scripts": {
-    "build": "yarn build:es5 & yarn build:esm",
+    "build": "yarn build:es5 && yarn build:esm",
     "build:es5": "tsc -p ./tsconfig.es5.json",
     "build:esm": "tsc -p ./tsconfig.esm.json",
     "clean": "rimraf node_modules lib coverage",
@@ -34,6 +34,8 @@
     "url": "https://github.com/amplitude/Amplitude-TypeScript/issues"
   },
   "dependencies": {
+    "@amplitude/analytics-connector": "^1.4.5",
+    "@amplitude/analytics-core": "^0.11.3",
     "@amplitude/analytics-types": "^0.15.0",
     "tslib": "^2.4.1"
   },

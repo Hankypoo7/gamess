@@ -1,12 +1,8 @@
-import { LogLevel, Logger as ILogger } from '@amplitude/analytics-types';
-export declare class Logger implements ILogger {
-    logLevel: LogLevel;
-    constructor();
+export declare class Logger {
     disable(): void;
-    enable(logLevel?: LogLevel): void;
-    log(...args: any[]): void;
-    warn(...args: any[]): void;
-    error(...args: any[]): void;
-    debug(...args: any[]): void;
+    enable(): void;
+    log(): void;
+    warn(): void;
+    error(): void;
 }
 //# sourceMappingURL=logger.d.ts.map

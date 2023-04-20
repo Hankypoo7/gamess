@@ -1,14 +1,16 @@
-import { __awaiter, __generator, __read, __rest, __spreadArray } from "tslib";
-import { PluginType, Status, } from '@amplitude/analytics-types';
-import { INVALID_API_KEY, MAX_RETRIES_EXCEEDED_MESSAGE, MISSING_API_KEY_MESSAGE, SUCCESS_MESSAGE, UNEXPECTED_ERROR_MESSAGE, } from '../messages';
-import { STORAGE_PREFIX } from '../constants';
-import { chunk } from '../utils/chunk';
-import { buildResult } from '../utils/result-builder';
-import { createServerConfig } from '../config';
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Destination = void 0;
+var tslib_1 = require("tslib");
+var analytics_types_1 = require("@amplitude/analytics-types");
+var messages_1 = require("../messages");
+var constants_1 = require("../constants");
+var chunk_1 = require("../utils/chunk");
+var result_builder_1 = require("../utils/result-builder");
+var config_1 = require("../config");
 var Destination = /** @class */ (function () {
     function Destination() {
         this.name = 'amplitude';
-        this.type = PluginType.DESTINATION;
+        this.type = analytics_types_1.PluginType.DESTINATION;
         this.retryTimeout = 1000;
         this.throttleTimeout = 30000;
         this.storageKey = '';
@@ -17,14 +19,14 @@ var Destination = /** @class */ (function () {
     }
     Destination.prototype.setup = function (config) {
         var _a;
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var unsent;
             var _this = this;
-            return __generator(this, function (_b) {
+            return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         this.config = config;
-                        this.storageKey = "".concat(STORAGE_PREFIX, "_").concat(this.config.apiKey.substring(0, 10));
+                        this.storageKey = "".concat(constants_1.STORAGE_PREFIX, "_").concat(this.config.apiKey.substring(0, 10));
                         return [4 /*yield*/, ((_a = this.config.storageProvider) === null || _a === void 0 ? void 0 : _a.get(this.storageKey))];
                     case 1:
                         unsent = _b.sent();
@@ -60,7 +62,7 @@ var Destination = /** @class */ (function () {
                 context.attempts += 1;
                 return true;
             }
-            void _this.fulfillRequest([context], 500, MAX_RETRIES_EXCEEDED_MESSAGE);
+            void _this.fulfillRequest([context], 500, messages_1.MAX_RETRIES_EXCEEDED_MESSAGE);
             return false;
         });
         tryable.forEach(function (context) {
@@ -90,10 +92,10 @@ var Destination = /** @class */ (function () {
     };
     Destination.prototype.flush = function (useRetry) {
         if (useRetry === void 0) { useRetry = false; }
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var list, later, batches;
             var _this = this;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         list = [];
@@ -104,7 +106,7 @@ var Destination = /** @class */ (function () {
                             clearTimeout(this.scheduled);
                             this.scheduled = null;
                         }
-                        batches = chunk(list, this.config.flushQueueSize);
+                        batches = (0, chunk_1.chunk)(list, this.config.flushQueueSize);
                         return [4 /*yield*/, Promise.all(batches.map(function (batch) { return _this.send(batch, useRetry); }))];
                     case 1:
                         _a.sent();
@@ -115,19 +117,19 @@ var Destination = /** @class */ (function () {
     };
     Destination.prototype.send = function (list, useRetry) {
         if (useRetry === void 0) { useRetry = true; }
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var payload, serverUrl, res, responseBody, e_1;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (!this.config.apiKey) {
-                            return [2 /*return*/, this.fulfillRequest(list, 400, MISSING_API_KEY_MESSAGE)];
+                            return [2 /*return*/, this.fulfillRequest(list, 400, messages_1.MISSING_API_KEY_MESSAGE)];
                         }
                         payload = {
                             api_key: this.config.apiKey,
                             events: list.map(function (context) {
                                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                                var _a = context.event, extra = _a.extra, eventWithoutExtra = __rest(_a, ["extra"]);
+                                var _a = context.event, extra = _a.extra, eventWithoutExtra = tslib_1.__rest(_a, ["extra"]);
                                 return eventWithoutExtra;
                             }),
                             options: {
@@ -137,12 +139,12 @@ var Destination = /** @class */ (function () {
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
-                        serverUrl = createServerConfig(this.config.serverUrl, this.config.serverZone, this.config.useBatch).serverUrl;
+                        serverUrl = (0, config_1.createServerConfig)(this.config.serverUrl, this.config.serverZone, this.config.useBatch).serverUrl;
                         return [4 /*yield*/, this.config.transportProvider.send(serverUrl, payload)];
                     case 2:
                         res = _a.sent();
                         if (res === null) {
-                            this.fulfillRequest(list, 0, UNEXPECTED_ERROR_MESSAGE);
+                            this.fulfillRequest(list, 0, messages_1.UNEXPECTED_ERROR_MESSAGE);
                             return [2 /*return*/];
                         }
                         if (!useRetry) {
@@ -175,16 +177,16 @@ var Destination = /** @class */ (function () {
     Destination.prototype.handleReponse = function (res, list) {
         var status = res.status;
         switch (status) {
-            case Status.Success:
+            case analytics_types_1.Status.Success:
                 this.handleSuccessResponse(res, list);
                 break;
-            case Status.Invalid:
+            case analytics_types_1.Status.Invalid:
                 this.handleInvalidResponse(res, list);
                 break;
-            case Status.PayloadTooLarge:
+            case analytics_types_1.Status.PayloadTooLarge:
                 this.handlePayloadTooLargeResponse(res, list);
                 break;
-            case Status.RateLimit:
+            case analytics_types_1.Status.RateLimit:
                 this.handleRateLimitResponse(res, list);
                 break;
             default:
@@ -192,15 +194,15 @@ var Destination = /** @class */ (function () {
         }
     };
     Destination.prototype.handleSuccessResponse = function (res, list) {
-        this.fulfillRequest(list, res.statusCode, SUCCESS_MESSAGE);
+        this.fulfillRequest(list, res.statusCode, messages_1.SUCCESS_MESSAGE);
     };
     Destination.prototype.handleInvalidResponse = function (res, list) {
         var _this = this;
-        if (res.body.missingField || res.body.error.startsWith(INVALID_API_KEY)) {
+        if (res.body.missingField || res.body.error.startsWith(messages_1.INVALID_API_KEY)) {
             this.fulfillRequest(list, res.statusCode, res.body.error);
             return;
         }
-        var dropIndex = __spreadArray(__spreadArray(__spreadArray(__spreadArray([], __read(Object.values(res.body.eventsWithInvalidFields)), false), __read(Object.values(res.body.eventsWithMissingFields)), false), __read(Object.values(res.body.eventsWithInvalidIdLengths)), false), __read(res.body.silencedEvents), false).flat();
+        var dropIndex = tslib_1.__spreadArray(tslib_1.__spreadArray(tslib_1.__spreadArray(tslib_1.__spreadArray([], tslib_1.__read(Object.values(res.body.eventsWithInvalidFields)), false), tslib_1.__read(Object.values(res.body.eventsWithMissingFields)), false), tslib_1.__read(Object.values(res.body.eventsWithInvalidIdLengths)), false), tslib_1.__read(res.body.silencedEvents), false).flat();
         var dropIndexSet = new Set(dropIndex);
         var retry = list.filter(function (context, index) {
             if (dropIndexSet.has(index)) {
@@ -209,7 +211,7 @@ var Destination = /** @class */ (function () {
             }
             return true;
         });
-        this.addToQueue.apply(this, __spreadArray([], __read(retry), false));
+        this.addToQueue.apply(this, tslib_1.__spreadArray([], tslib_1.__read(retry), false));
     };
     Destination.prototype.handlePayloadTooLargeResponse = function (res, list) {
         if (list.length === 1) {
@@ -217,7 +219,7 @@ var Destination = /** @class */ (function () {
             return;
         }
         this.config.flushQueueSize /= 2;
-        this.addToQueue.apply(this, __spreadArray([], __read(list), false));
+        this.addToQueue.apply(this, tslib_1.__spreadArray([], tslib_1.__read(list), false));
     };
     Destination.prototype.handleRateLimitResponse = function (res, list) {
         var _this = this;
@@ -238,18 +240,18 @@ var Destination = /** @class */ (function () {
             }
             return true;
         });
-        this.addToQueue.apply(this, __spreadArray([], __read(retry), false));
+        this.addToQueue.apply(this, tslib_1.__spreadArray([], tslib_1.__read(retry), false));
     };
     Destination.prototype.handleOtherReponse = function (list) {
         var _this = this;
-        this.addToQueue.apply(this, __spreadArray([], __read(list.map(function (context) {
+        this.addToQueue.apply(this, tslib_1.__spreadArray([], tslib_1.__read(list.map(function (context) {
             context.timeout = context.attempts * _this.retryTimeout;
             return context;
         })), false));
     };
     Destination.prototype.fulfillRequest = function (list, code, message) {
         this.saveEvents();
-        list.forEach(function (context) { return context.callback(buildResult(context.event, code, message)); });
+        list.forEach(function (context) { return context.callback((0, result_builder_1.buildResult)(context.event, code, message)); });
     };
     /**
      * Saves events to storage
@@ -266,5 +268,5 @@ var Destination = /** @class */ (function () {
     };
     return Destination;
 }());
-export { Destination };
+exports.Destination = Destination;
 //# sourceMappingURL=destination.js.map

@@ -1,3 +1,5 @@
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AnalyticsEventReceiver = void 0;
 var AnalyticsEventReceiver = /** @class */ (function () {
     function AnalyticsEventReceiver(client) {
         this.client = client;
@@ -21,5 +23,5 @@ var AnalyticsEventReceiver = /** @class */ (function () {
     };
     return AnalyticsEventReceiver;
 }());
-export { AnalyticsEventReceiver };
+exports.AnalyticsEventReceiver = AnalyticsEventReceiver;
 //# sourceMappingURL=event-receiver.js.map
