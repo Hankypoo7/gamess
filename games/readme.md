@@ -1,0 +1,1 @@
+games location/storage
