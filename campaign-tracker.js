@@ -1,14 +1,16 @@
-import { __assign, __awaiter, __generator, __read, __rest } from "tslib";
-import { createIdentifyEvent, Identify } from '@amplitude/analytics-core';
-import { getCookieName as getStorageKey } from '../cookie-name';
-import { CampaignParser } from './campaign-parser';
-import { BASE_CAMPAIGN, EMPTY_VALUE, MKTG } from './constants';
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CampaignTracker = void 0;
+var tslib_1 = require("tslib");
+var analytics_core_1 = require("@amplitude/analytics-core");
+var cookie_name_1 = require("../cookie-name");
+var campaign_parser_1 = require("./campaign-parser");
+var constants_1 = require("./constants");
 var CampaignTracker = /** @class */ (function () {
     function CampaignTracker(apiKey, options) {
         var _a, _b;
         this.storage = options.storage;
-        this.storageKey = getStorageKey(apiKey, MKTG);
-        this.parser = new CampaignParser();
+        this.storageKey = (0, cookie_name_1.getCookieName)(apiKey, constants_1.MKTG);
+        this.parser = new campaign_parser_1.CampaignParser();
         this.track = options.track;
         this.onNewCampaign = options.onNewCampaign;
         this.disabled = Boolean(options.disabled);
@@ -18,12 +20,12 @@ var CampaignTracker = /** @class */ (function () {
         if (typeof location !== 'undefined') {
             this.excludeReferrers.unshift(location.hostname);
         }
-        this.initialEmptyValue = (_b = options.initialEmptyValue) !== null && _b !== void 0 ? _b : EMPTY_VALUE;
+        this.initialEmptyValue = (_b = options.initialEmptyValue) !== null && _b !== void 0 ? _b : constants_1.EMPTY_VALUE;
     }
     CampaignTracker.prototype.isNewCampaign = function (current, previous, ignoreSubdomainInReferrer) {
         if (ignoreSubdomainInReferrer === void 0) { ignoreSubdomainInReferrer = false; }
-        var referrer = current.referrer, referring_domain = current.referring_domain, currentCampaign = __rest(current, ["referrer", "referring_domain"]);
-        var _a = previous || {}, _previous_referrer = _a.referrer, prevReferringDomain = _a.referring_domain, previousCampaign = __rest(_a, ["referrer", "referring_domain"]);
+        var referrer = current.referrer, referring_domain = current.referring_domain, currentCampaign = tslib_1.__rest(current, ["referrer", "referring_domain"]);
+        var _a = previous || {}, _previous_referrer = _a.referrer, prevReferringDomain = _a.referring_domain, previousCampaign = tslib_1.__rest(_a, ["referrer", "referring_domain"]);
         if (current.referring_domain && this.excludeReferrers.includes(current.referring_domain)) {
             return false;
         }
@@ -34,8 +36,8 @@ var CampaignTracker = /** @class */ (function () {
         return !previous || hasNewCampaign || hasNewDomain;
     };
     CampaignTracker.prototype.saveCampaignToStorage = function (campaign) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.storage.set(this.storageKey, campaign)];
                     case 1:
@@ -46,8 +48,8 @@ var CampaignTracker = /** @class */ (function () {
         });
     };
     CampaignTracker.prototype.getCampaignFromStorage = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.storage.get(this.storageKey)];
                     case 1: return [2 /*return*/, _a.sent()];
@@ -57,15 +59,15 @@ var CampaignTracker = /** @class */ (function () {
     };
     CampaignTracker.prototype.createCampaignEvent = function (campaign) {
         var _this = this;
-        var campaignParameters = __assign(__assign({}, BASE_CAMPAIGN), campaign);
+        var campaignParameters = tslib_1.__assign(tslib_1.__assign({}, constants_1.BASE_CAMPAIGN), campaign);
         var identifyEvent = Object.entries(campaignParameters).reduce(function (identify, _a) {
-            var _b = __read(_a, 2), key = _b[0], value = _b[1];
+            var _b = tslib_1.__read(_a, 2), key = _b[0], value = _b[1];
             identify.setOnce("initial_".concat(key), value || _this.initialEmptyValue);
             if (value) {
                 return identify.set(key, value);
             }
             return identify.unset(key);
-        }, new Identify());
+        }, new analytics_core_1.Identify());
         var pageViewEvent = {
             event_type: 'Page View',
             event_properties: {
@@ -74,12 +76,12 @@ var CampaignTracker = /** @class */ (function () {
                 page_path: /* istanbul ignore next */ (typeof location !== 'undefined' && location.pathname) || '',
             },
         };
-        return __assign(__assign({}, createIdentifyEvent(identifyEvent)), (this.trackPageViews && pageViewEvent));
+        return tslib_1.__assign(tslib_1.__assign({}, (0, analytics_core_1.createIdentifyEvent)(identifyEvent)), (this.trackPageViews && pageViewEvent));
     };
     CampaignTracker.prototype.send = function (isNewSession) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var currentCampaign, previousCampaign;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (this.disabled) {
@@ -110,7 +112,7 @@ var CampaignTracker = /** @class */ (function () {
     };
     return CampaignTracker;
 }());
-export { CampaignTracker };
+exports.CampaignTracker = CampaignTracker;
 var domainWithoutSubdomain = function (domain) {
     var parts = domain.split('.');
     if (parts.length <= 2) {

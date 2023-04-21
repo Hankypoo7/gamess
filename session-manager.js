@@ -1,9 +1,11 @@
-import { __assign, __awaiter, __generator } from "tslib";
-import { getCookieName as getStorageKey } from './cookie-name';
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SessionManager = void 0;
+var tslib_1 = require("tslib");
+var cookie_name_1 = require("./cookie-name");
 var SessionManager = /** @class */ (function () {
     function SessionManager(storage, apiKey) {
         this.storage = storage;
-        this.storageKey = getStorageKey(apiKey);
+        this.storageKey = (0, cookie_name_1.getCookieName)(apiKey);
         this.cache = { optOut: false };
     }
     /**
@@ -15,9 +17,9 @@ var SessionManager = /** @class */ (function () {
      */
     SessionManager.prototype.load = function () {
         var _a;
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var _b;
-            return __generator(this, function (_c) {
+            return tslib_1.__generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
                         _b = this;
@@ -32,7 +34,7 @@ var SessionManager = /** @class */ (function () {
         });
     };
     SessionManager.prototype.setSession = function (session) {
-        this.cache = __assign(__assign({}, this.cache), session);
+        this.cache = tslib_1.__assign(tslib_1.__assign({}, this.cache), session);
         void this.storage.set(this.storageKey, this.cache);
     };
     SessionManager.prototype.getSessionId = function () {
@@ -73,5 +75,5 @@ var SessionManager = /** @class */ (function () {
     };
     return SessionManager;
 }());
-export { SessionManager };
+exports.SessionManager = SessionManager;
 //# sourceMappingURL=session-manager.js.map

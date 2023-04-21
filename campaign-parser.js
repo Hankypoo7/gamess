@@ -1,24 +1,26 @@
-import { __assign, __awaiter, __generator } from "tslib";
-import { getQueryParams } from '../query-params';
-import { UTM_CAMPAIGN, UTM_CONTENT, UTM_MEDIUM, UTM_SOURCE, UTM_TERM, GCLID, FBCLID, BASE_CAMPAIGN, DCLID, MSCLKID, TWCLID, TTCLID, KO_CLICK_ID, GBRAID, WBRAID, UTM_ID, } from './constants';
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CampaignParser = void 0;
+var tslib_1 = require("tslib");
+var query_params_1 = require("../query-params");
+var constants_1 = require("./constants");
 var CampaignParser = /** @class */ (function () {
     function CampaignParser() {
     }
     CampaignParser.prototype.parse = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, __assign(__assign(__assign(__assign({}, BASE_CAMPAIGN), this.getUtmParam()), this.getReferrer()), this.getClickIds())];
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                return [2 /*return*/, tslib_1.__assign(tslib_1.__assign(tslib_1.__assign(tslib_1.__assign({}, constants_1.BASE_CAMPAIGN), this.getUtmParam()), this.getReferrer()), this.getClickIds())];
             });
         });
     };
     CampaignParser.prototype.getUtmParam = function () {
-        var params = getQueryParams();
-        var utmCampaign = params[UTM_CAMPAIGN];
-        var utmContent = params[UTM_CONTENT];
-        var utmId = params[UTM_ID];
-        var utmMedium = params[UTM_MEDIUM];
-        var utmSource = params[UTM_SOURCE];
-        var utmTerm = params[UTM_TERM];
+        var params = (0, query_params_1.getQueryParams)();
+        var utmCampaign = params[constants_1.UTM_CAMPAIGN];
+        var utmContent = params[constants_1.UTM_CONTENT];
+        var utmId = params[constants_1.UTM_ID];
+        var utmMedium = params[constants_1.UTM_MEDIUM];
+        var utmSource = params[constants_1.UTM_SOURCE];
+        var utmTerm = params[constants_1.UTM_TERM];
         return {
             utm_campaign: utmCampaign,
             utm_content: utmContent,
@@ -45,20 +47,20 @@ var CampaignParser = /** @class */ (function () {
     };
     CampaignParser.prototype.getClickIds = function () {
         var _a;
-        var params = getQueryParams();
+        var params = (0, query_params_1.getQueryParams)();
         return _a = {},
-            _a[DCLID] = params[DCLID],
-            _a[FBCLID] = params[FBCLID],
-            _a[GBRAID] = params[GBRAID],
-            _a[GCLID] = params[GCLID],
-            _a[KO_CLICK_ID] = params[KO_CLICK_ID],
-            _a[MSCLKID] = params[MSCLKID],
-            _a[TTCLID] = params[TTCLID],
-            _a[TWCLID] = params[TWCLID],
-            _a[WBRAID] = params[WBRAID],
+            _a[constants_1.DCLID] = params[constants_1.DCLID],
+            _a[constants_1.FBCLID] = params[constants_1.FBCLID],
+            _a[constants_1.GBRAID] = params[constants_1.GBRAID],
+            _a[constants_1.GCLID] = params[constants_1.GCLID],
+            _a[constants_1.KO_CLICK_ID] = params[constants_1.KO_CLICK_ID],
+            _a[constants_1.MSCLKID] = params[constants_1.MSCLKID],
+            _a[constants_1.TTCLID] = params[constants_1.TTCLID],
+            _a[constants_1.TWCLID] = params[constants_1.TWCLID],
+            _a[constants_1.WBRAID] = params[constants_1.WBRAID],
             _a;
     };
     return CampaignParser;
 }());
-export { CampaignParser };
+exports.CampaignParser = CampaignParser;
 //# sourceMappingURL=campaign-parser.js.map

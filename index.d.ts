@@ -1,13 +1,5 @@
-export { CampaignParser } from './attribution/campaign-parser';
-export { CampaignTracker } from './attribution/campaign-tracker';
-export { getQueryParams } from './query-params';
-export { getCookieName, getOldCookieName } from './cookie-name';
-export { CookieStorage } from './storage/cookie';
-export { SessionManager } from './session-manager';
-export { FetchTransport } from './transports/fetch';
-export { getAnalyticsConnector } from './analytics-connector';
-export { IdentityEventSender } from './plugins/identity';
-export { getLanguage } from './language';
-export { BASE_CAMPAIGN } from './attribution/constants';
-export { getGlobalScope } from './global-scope';
+import { BrowserOptions, UserSession } from '@amplitude/analytics-types';
+export declare const parseOldCookies: (apiKey: string, options?: BrowserOptions) => Promise<UserSession>;
+export declare const parseTime: (num: string) => number | undefined;
+export declare const decode: (value?: string) => string | undefined;
 //# sourceMappingURL=index.d.ts.map

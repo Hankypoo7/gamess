@@ -1,14 +1,16 @@
-import { __awaiter, __extends, __generator } from "tslib";
-import { BaseTransport } from '@amplitude/analytics-core';
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.FetchTransport = void 0;
+var tslib_1 = require("tslib");
+var analytics_core_1 = require("@amplitude/analytics-core");
 var FetchTransport = /** @class */ (function (_super) {
-    __extends(FetchTransport, _super);
+    tslib_1.__extends(FetchTransport, _super);
     function FetchTransport() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     FetchTransport.prototype.send = function (serverUrl, payload) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var options, response, responsePayload;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         /* istanbul ignore if */
@@ -35,6 +37,6 @@ var FetchTransport = /** @class */ (function (_super) {
         });
     };
     return FetchTransport;
-}(BaseTransport));
-export { FetchTransport };
+}(analytics_core_1.BaseTransport));
+exports.FetchTransport = FetchTransport;
 //# sourceMappingURL=fetch.js.map

@@ -1,17 +1,19 @@
-import { __assign, __awaiter, __generator } from "tslib";
-import { getGlobalScope } from '../global-scope';
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CookieStorage = void 0;
+var tslib_1 = require("tslib");
+var global_scope_1 = require("../global-scope");
 var CookieStorage = /** @class */ (function () {
     function CookieStorage(options) {
-        this.options = __assign({}, options);
+        this.options = tslib_1.__assign({}, options);
     }
     CookieStorage.prototype.isEnabled = function () {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var random, testStrorage, testKey, value, _a;
-            return __generator(this, function (_b) {
+            return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         /* istanbul ignore if */
-                        if (!getGlobalScope()) {
+                        if (!(0, global_scope_1.getGlobalScope)()) {
                             return [2 /*return*/, false];
                         }
                         random = String(Date.now());
@@ -41,9 +43,9 @@ var CookieStorage = /** @class */ (function () {
         });
     };
     CookieStorage.prototype.get = function (key) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var value;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.getRaw(key)];
                     case 1:
@@ -72,10 +74,10 @@ var CookieStorage = /** @class */ (function () {
     };
     CookieStorage.prototype.getRaw = function (key) {
         var _a;
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var globalScope, cookie, match;
-            return __generator(this, function (_b) {
-                globalScope = getGlobalScope();
+            return tslib_1.__generator(this, function (_b) {
+                globalScope = (0, global_scope_1.getGlobalScope)();
                 cookie = (_a = globalScope === null || globalScope === void 0 ? void 0 : globalScope.document.cookie.split('; ')) !== null && _a !== void 0 ? _a : [];
                 match = cookie.find(function (c) { return c.indexOf(key + '=') === 0; });
                 if (!match) {
@@ -87,9 +89,9 @@ var CookieStorage = /** @class */ (function () {
     };
     CookieStorage.prototype.set = function (key, value) {
         var _a;
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var expirationDays, expires, expireDate, date, str, globalScope;
-            return __generator(this, function (_b) {
+            return tslib_1.__generator(this, function (_b) {
                 try {
                     expirationDays = (_a = this.options.expirationDays) !== null && _a !== void 0 ? _a : 0;
                     expires = value !== null ? expirationDays : -1;
@@ -113,7 +115,7 @@ var CookieStorage = /** @class */ (function () {
                     if (this.options.sameSite) {
                         str += "; SameSite=".concat(this.options.sameSite);
                     }
-                    globalScope = getGlobalScope();
+                    globalScope = (0, global_scope_1.getGlobalScope)();
                     if (globalScope) {
                         globalScope.document.cookie = str;
                     }
@@ -126,8 +128,8 @@ var CookieStorage = /** @class */ (function () {
         });
     };
     CookieStorage.prototype.remove = function (key) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.set(key, null)];
                     case 1:
@@ -138,13 +140,13 @@ var CookieStorage = /** @class */ (function () {
         });
     };
     CookieStorage.prototype.reset = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
                 return [2 /*return*/];
             });
         });
     };
     return CookieStorage;
 }());
-export { CookieStorage };
+exports.CookieStorage = CookieStorage;
 //# sourceMappingURL=cookie.js.map

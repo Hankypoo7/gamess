@@ -1,6 +1,8 @@
 /* eslint-disable no-restricted-globals */
 /* Only file allowed to access to globalThis, window, self */
-export var getGlobalScope = function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getGlobalScope = void 0;
+var getGlobalScope = function () {
     if (typeof globalThis !== 'undefined') {
         return globalThis;
     }
@@ -15,4 +17,5 @@ export var getGlobalScope = function () {
     }
     return undefined;
 };
+exports.getGlobalScope = getGlobalScope;
 //# sourceMappingURL=global-scope.js.map
