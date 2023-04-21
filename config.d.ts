@@ -61,6 +61,6 @@ export declare const createCookieStorage: (overrides?: BrowserOptions, baseConfi
 export declare const createFlexibleStorage: <T>(options: BrowserOptions) => Promise<Storage<T>>;
 export declare const createEventsStorage: (overrides?: BrowserOptions) => Promise<Storage<Event[]> | undefined>;
 export declare const createDeviceId: (idFromCookies?: string, idFromOptions?: string, idFromQueryParams?: string) => string;
-export declare const createTransport: (transport?: TransportType) => XHRTransport | SendBeaconTransport | FetchTransport;
+export declare const createTransport: (transport?: TransportType) => FetchTransport | XHRTransport | SendBeaconTransport;
 export declare const getTopLevelDomain: (url?: string) => Promise<string>;
 //# sourceMappingURL=config.d.ts.map
